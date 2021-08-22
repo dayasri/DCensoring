@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Distribution of T (Survival)and C (Censoring)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for dist.TC {DCensoring}"><tr><td>dist.TC {DCensoring}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Distribution of T (Survival)and C (Censoring)</h2>
+
+<h3>Description</h3>
+
+<p>This function takes input survival &amp; censoring data and
+distribution family of T and C and returns the estimates of the distribution
+given.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dist.TC(t, c, T.fam = c("weibull", "lnorm"), C.fam = c("weibull", "lnorm"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>t:</code></td>
+<td>
+<p>survival time</p>
+</td></tr>
+<tr valign="top"><td><code>c:</code></td>
+<td>
+<p>censoring time</p>
+</td></tr>
+<tr valign="top"><td><code>T.fam:</code></td>
+<td>
+<p>specify the distribution of T (survival time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>C.fam:</code></td>
+<td>
+<p>specify the distribution of C (censoring time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>estimates of x and y
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>DCensoring</em> version 0.0.0.9000 <a href="00Index.html">Index</a>]</div>
+</body></html>

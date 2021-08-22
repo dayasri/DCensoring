@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulation function for dependent censoring</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sim.TC {DCensoring}"><tr><td>sim.TC {DCensoring}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulation function for dependent censoring</h2>
+
+<h3>Description</h3>
+
+<p>This function takes input as the distribution of survival &amp; censoring data,
+the copula family and simulates the given number of data for y
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sim.TC(
+  tauTC = 0.5,
+  fam = "frank",
+  dist.T = c("lnorm", "weibull"),
+  dist.C = c("lnorm", "weibull"),
+  par.T = c(1, 1),
+  par.C = c(1, 1),
+  beta.T = c(0.5, 0.5),
+  beta.C = c(0.5, 0.5),
+  X.T = X.T,
+  X.C = X.C,
+  rot = 0,
+  n = 10
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tauTC:</code></td>
+<td>
+<p>kendall's tau value between T and C</p>
+</td></tr>
+<tr valign="top"><td><code>fam:</code></td>
+<td>
+<p>copula family &ndash; &quot;frank&quot; or &quot;gauss&quot; or &quot;clayton&quot; or &quot;gumbel&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>dist.T:</code></td>
+<td>
+<p>specify the distribution of T (survival time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>dist.C:</code></td>
+<td>
+<p>specify the distribution of C (censoring time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>par.T:</code></td>
+<td>
+<p>parameters of T</p>
+</td></tr>
+<tr valign="top"><td><code>par.C:</code></td>
+<td>
+<p>parameters of C</p>
+</td></tr>
+<tr valign="top"><td><code>rot:</code></td>
+<td>
+<p>rotation parameter</p>
+</td></tr>
+<tr valign="top"><td><code>n:</code></td>
+<td>
+<p>number of simulations</p>
+</td></tr>
+<tr valign="top"><td><code>x:</code></td>
+<td>
+<p>covariates or explanatory variables</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>estimates of x and y
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>DCensoring</em> version 0.0.0.9000 <a href="00Index.html">Index</a>]</div>
+</body></html>

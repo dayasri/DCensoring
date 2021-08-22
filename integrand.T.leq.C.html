@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: P(T&lt;=C)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for integrand.T.leq.C {DCensoring}"><tr><td>integrand.T.leq.C {DCensoring}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>P(T&lt;=C)</h2>
+
+<h3>Description</h3>
+
+<p>This function takes input as parameters,copula family and the distribution of T and C
+This returns the integrand for T&lt;=C
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+integrand.T.leq.C(
+  par,
+  par.cop,
+  par.C,
+  par.T,
+  beta.T,
+  beta.C,
+  Cop.fam = "frank",
+  C.fam = c("weibull", "lnorm"),
+  T.fam = c("weibull", "lnorm"),
+  x = c(age, gender)
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>par.cop:</code></td>
+<td>
+<p>copula parameters</p>
+</td></tr>
+<tr valign="top"><td><code>par.C:</code></td>
+<td>
+<p>parameters of Censoring C</p>
+</td></tr>
+<tr valign="top"><td><code>par.T:</code></td>
+<td>
+<p>parameters of Survival T</p>
+</td></tr>
+<tr valign="top"><td><code>y:</code></td>
+<td>
+<p>columnname of delta in dataframe. eg: &quot;delta&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>T.fam:</code></td>
+<td>
+<p>specify the distribution of x (survival time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>C.fam:</code></td>
+<td>
+<p>specify the distribution of y (censoring time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>Cop.fam:</code></td>
+<td>
+<p>specify the copula family &ndash; &quot;frank&quot;,&quot;clayton&quot;,&quot;gumbel&quot;,&quot;gauss&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>x:</code></td>
+<td>
+<p>covariates or explanatory variables</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>integrand for T&lt;=C
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>DCensoring</em> version 0.0.0.9000 <a href="00Index.html">Index</a>]</div>
+</body></html>

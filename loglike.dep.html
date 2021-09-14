@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Loglikelihood for dependent copula</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for loglike.dep {DCensoring}"><tr><td>loglike.dep {DCensoring}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Loglikelihood for dependent copula</h2>
+
+<h3>Description</h3>
+
+<p>This function takes input as log(parameters),dataframe, colnames of Y = min(T,C) &amp;
+delta and the distribution of T and C. This returns the loglikelihood for dependent
+copula.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+loglike.dep(
+  lpara = c(1, log(0.5), 2, log(0.5), tau, beta.T, beta.C),
+  Cop.fam = "frank",
+  df = df,
+  y,
+  delta,
+  T.fam = c("weibull", "lnorm"),
+  C.fam = c("weibull", "lnorm"),
+  x
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lpara:</code></td>
+<td>
+<p>starting values of log(parameters) &ndash; eg: c(par(T),par(C),par(copula))</p>
+</td></tr>
+<tr valign="top"><td><code>df:</code></td>
+<td>
+<p>Dataframe</p>
+</td></tr>
+<tr valign="top"><td><code>y:</code></td>
+<td>
+<p>columnname of Y=min(T,C) in dataframe. eg: &quot;survivaltimeinmonths&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>delta:</code></td>
+<td>
+<p>columnname of delta in dataframe. eg: &quot;delta&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>T.fam:</code></td>
+<td>
+<p>specify the distribution of x (survival time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>C.fam:</code></td>
+<td>
+<p>specify the distribution of y (censoring time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>Cop.fam:</code></td>
+<td>
+<p>specify the copula family &ndash; &quot;frank&quot;,&quot;clayton&quot;,&quot;gumbel&quot;,&quot;gauss&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>x:</code></td>
+<td>
+<p>covariates or explanatory variables (optional)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>loglike.dep</code> function gives the loglikelihood for the joint distribution of survival time <i>T</i> and the censoring time <i>C</i>,
+when the duration times are right censored. Czado and Van Keilegom identified the joint distribution assuming that
+<i>T</i> and <i>C</i> are stochastically dependent on each other. <i>F_{T}</i> and <i>F_{C}</i> are marginal distributions
+belonging to some parametric family, e.g &quot;weibull&quot;. The marginal distribution of <i>Y</i> = min(<i>T</i>,<i>C</i>)
+is given as </p>
+<p style="text-align: center;"><i>F_{Y}(y) = F_{T}(y) + F_{C}(y) - C(F_{T}(y),F_{C}(y))</i></p>
+<p>, where C is the associated copula, e.g &quot;frank&quot;, to model the
+dependency. The model for the joint mixed density is given as
+</p>
+<p style="text-align: center;"><i>f_{Y,&Delta;}(y,1) = {1 - h_{C|T}(F_{C}(y)|F_{T}(y))} f_{T}(y) 
+       f_{Y,&Delta;}(y,0) = {1 - h_{T|C}(F_{T}(y)| F_{C}(y))  } f_{C}(y).</i></p>
+
+<p>Here, <i>h_{C|T}</i> and <i>h_{T|C}</i> are the h-functions to
+express conditional distribution functions in terms of their associated copulas.
+</p>
+<p>The argument <code>x</code> is optional. If missing, then the function is without the covariate.
+Otherwise, the argument <code>beta.T</code> and <code>beta.C</code> is to be given to specify the intercept and/or
+the coefficients of the covariates considered.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>loglike.dep</code> returns a single value for the loglikelihood for independent copula with specified margins
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+y&lt;-seq(1,20,2)
+cov1&lt;-rpois(10,2)
+cov2&lt;-rpois(10,3)
+delta&lt;-rbinom(10,1,0.5)
+dff&lt;-data.frame(y,delta,cov1,cov2)
+tau&lt;-0.5
+para&lt;-c(0.02,0.02,0.02,0.02)
+beta.T&lt;-c(0.05,0.05)
+beta.C&lt;-c(0.06,0.06)
+lpara&lt;-list(tau,para,beta.T,beta.C)
+Example 1: With Covariate:
+
+l1&lt;-loglike.dep(lpara=unlist(lpara),df=dff,y="y",delta="delta",T.fam="weibull",
+               C.fam="weibull",x=c("cov1","cov2"))
+
+Example 2: Without Covariate:
+
+l2&lt;-loglike.dep(lpara=c(tau,para),df=dff,y="y",delta="delta",T.fam="weibull",
+               C.fam="weibull",Cop.fam = "frank") 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DCensoring</em> version 0.0.0.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

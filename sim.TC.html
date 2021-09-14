@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulation function for dependent censoring</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sim.TC {DCensoring}"><tr><td>sim.TC {DCensoring}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulation function for dependent censoring</h2>
+
+<h3>Description</h3>
+
+<p>This function takes input as the distribution of survival &amp; censoring data,
+the copula family and simulates the given number of data for y
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sim.TC(
+  tauTC = 0.5,
+  fam = "frank",
+  dist.T = c("lnorm", "weibull"),
+  dist.C = c("lnorm", "weibull"),
+  par.T = c(1, 1),
+  par.C = c(1, 1),
+  beta.T = c(0.5, 0.5),
+  beta.C = c(0.5, 0.5),
+  X.T = X.T,
+  X.C = X.C,
+  rot = 0,
+  n = 10
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tauTC:</code></td>
+<td>
+<p>kendall's tau value between T and C</p>
+</td></tr>
+<tr valign="top"><td><code>fam:</code></td>
+<td>
+<p>copula family &ndash; &quot;frank&quot; or &quot;gauss&quot; or &quot;clayton&quot; or &quot;gumbel&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>dist.T:</code></td>
+<td>
+<p>specify the distribution of T (survival time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>dist.C:</code></td>
+<td>
+<p>specify the distribution of C (censoring time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>par.T:</code></td>
+<td>
+<p>parameters of T</p>
+</td></tr>
+<tr valign="top"><td><code>par.C:</code></td>
+<td>
+<p>parameters of C</p>
+</td></tr>
+<tr valign="top"><td><code>rot:</code></td>
+<td>
+<p>copula rotation parameter</p>
+</td></tr>
+<tr valign="top"><td><code>n:</code></td>
+<td>
+<p>number of simulations</p>
+</td></tr>
+<tr valign="top"><td><code>x:</code></td>
+<td>
+<p>covariates or explanatory variables (optional)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>sim.TC</code> function simulates the joint distribution of survival time <i>T</i> and the censoring time <i>C</i>,
+when the duration times are right censored. Czado and Van Keilegom identified the joint distribution assuming that
+<i>T</i> and <i>C</i> are stochastically dependent on each other. <i>F_{T}</i> and <i>F_{C}</i> are marginal distributions
+belonging to some parametric family, e.g &quot;weibull&quot;. The marginal distribution of <i>Y</i> = min(<i>T</i>,<i>C</i>)
+is given as </p>
+<p style="text-align: center;"><i>F_{Y}(y) = F_{T}(y) + F_{C}(y) - C(F_{T}(y),F_{C}(y))</i></p>
+<p>, where C is the associated copula, e.g &quot;frank&quot;, to model the
+dependency. The model for the joint mixed density is given as
+</p>
+<p style="text-align: center;"><i>f_{Y,&Delta;}(y,1) = {1 - h_{C|T}(F_{C}(y)|F_{T}(y))} f_{T}(y) 
+       f_{Y,&Delta;}(y,0) = {1 - h_{T|C}(F_{T}(y)| F_{C}(y))  } f_{C}(y).</i></p>
+
+<p>Here, <i>h_{C|T}</i> and <i>h_{T|C}</i> are the h-functions to
+express conditional distribution functions in terms of their associated copulas.
+</p>
+<p>The argument <code>x</code> is optional. If missing, then the function is without the covariate.
+Otherwise, the argument <code>beta.T</code> and <code>beta.C</code> is to be given to specify the intercept and/or
+the coefficients of the covariates considered.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>sim.TC</code> returns the simulation result as an object of class, a list with following components:
+</p>
+<p>.$tauTC: value of tau given
+</p>
+<p>.$fam: copula family given
+</p>
+<p>.$dist.T: distribution family of T given
+</p>
+<p>.$dist.C: distribution family of C given
+</p>
+<p>.$par.T: paramter(s) of the random variable T (survival time)
+</p>
+<p>.$par.C: paramter(s) of the random variable C (censoring time)
+</p>
+<p>.$rot: copula rotation parameter given
+</p>
+<p>.$n: number of simulations
+</p>
+<p>.$xT: quantile values for T using udata
+</p>
+<p>.$xC: quantile values for C using udata
+</p>
+<p>.$u.TC: udata(uniform) for T and C
+</p>
+<p>.$delta: censoring indicators
+</p>
+<p>.$y:lifetimes observed min(xT,xC)
+</p>
+<p>.$fT.y: marginal density of T
+</p>
+<p>.$fC.y: marginal density of C
+</p>
+<p>.$FT.y: marginal distribution of T
+</p>
+<p>.$FC.y: marginal distribution of C
+</p>
+<p>.$f.TC.y: joint density of TC
+</p>
+<p>.$F.TC.y: joint distribution of TC
+</p>
+<p>.$hC.condT.y: hfunction values for C on T
+</p>
+<p>.$hT.condC.y: hfunction values for T on C
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+X.T &lt;- matrix(c(1,1,1,2,2,2,3,3,1),nrow=3)   
+X.C &lt;- matrix(c(2,1,1,1,2,2,3,4,1),nrow=3)
+beta.T &lt;- matrix(c(1,0.2,0.2),ncol = 1)
+beta.C &lt;- matrix(c(1,0.4,0.4),ncol=1)
+
+Example 1: With covariate:
+
+r = sim.TC(tauTC = .5,fam= "frank",dist.T = "weibull",dist.C = "weibull",par.T = c(1,1),par.C = c(1,1)
+          ,beta.T = beta.T,beta.C = beta.C, X.T = X.T,X.C = X.C,rot = 0,n = 10)   
+
+Example 2: Without covariate:
+r = sim.TC(tauTC = .5,fam= "frank",dist.T = "weibull",dist.C = "weibull",par.T = c(1,1),par.C = c(1,1)
+
+r$y #returns the lifetime y
+r$delta #returns the censoring indicator delta
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DCensoring</em> version 0.0.0.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

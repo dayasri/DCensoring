@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: P(T&lt;=C)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for integrand.T.leq.C {DCensoring}"><tr><td>integrand.T.leq.C {DCensoring}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>P(T&lt;=C)</h2>
+
+<h3>Description</h3>
+
+<p>This function takes input as parameters,copula family and the distribution of T and C
+This returns the integrand for T&lt;=C
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+integrand.T.leq.C(
+  par,
+  par.cop,
+  par.C,
+  par.T,
+  beta.T,
+  beta.C,
+  Cop.fam = "frank",
+  C.fam = c("weibull", "lnorm"),
+  T.fam = c("weibull", "lnorm"),
+  x = c(age, gender)
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>par.cop:</code></td>
+<td>
+<p>copula parameters</p>
+</td></tr>
+<tr valign="top"><td><code>par.C:</code></td>
+<td>
+<p>parameters of Censoring C</p>
+</td></tr>
+<tr valign="top"><td><code>par.T:</code></td>
+<td>
+<p>parameters of Survival T</p>
+</td></tr>
+<tr valign="top"><td><code>y:</code></td>
+<td>
+<p>columnname of delta in dataframe. eg: &quot;delta&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>T.fam:</code></td>
+<td>
+<p>specify the distribution of x (survival time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>C.fam:</code></td>
+<td>
+<p>specify the distribution of y (censoring time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>Cop.fam:</code></td>
+<td>
+<p>specify the copula family &ndash; &quot;frank&quot;,&quot;clayton&quot;,&quot;gumbel&quot;,&quot;gauss&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>x:</code></td>
+<td>
+<p>covariates or explanatory variables (optional)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>integrand.T.leq.C</code> function gives the values of uncensoring probabilities when the survival time <i>T</i> and the censoring time <i>C</i>,
+when the duration times are right censored. Czado and Van Keilegom identified the joint distribution assuming that
+<i>T</i> and <i>C</i> are stochastically dependent on each other. <i>F_{T}</i> and <i>F_{C}</i> are marginal distributions
+belonging to some parametric family, e.g &quot;weibull&quot;. The marginal distribution of <i>Y</i> = min(<i>T</i>,<i>C</i>)
+is given as </p>
+<p style="text-align: center;"><i>F_{Y}(y) = F_{T}(y) + F_{C}(y) - C(F_{T}(y),F_{C}(y))</i></p>
+<p>, where C is the associated copula, e.g &quot;frank&quot;, to model the
+dependency. The model for the joint mixed density is given as
+</p>
+<p style="text-align: center;"><i>f_{Y,&Delta;}(y,1) = {1 - h_{C|T}(F_{C}(y)|F_{T}(y))} f_{T}(y) 
+       f_{Y,&Delta;}(y,0) = {1 - h_{T|C}(F_{T}(y)| F_{C}(y))  } f_{C}(y).</i></p>
+
+<p>Here, <i>h_{C|T}</i> and <i>h_{T|C}</i> are the h-functions to
+express conditional distribution functions in terms of their associated copulas.
+</p>
+<p>The argument <code>x</code> is optional. If missing, then the function is without the covariate.
+Otherwise, the argument <code>beta.T</code> and <code>beta.C</code> is to be given to specify the intercept and/or
+the coefficients of the covariates considered.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>integrand.T.leq.C</code> can be used to return the value of uncensoring probabilities
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+Example 1: With Covariate:
+
+r = rep(0,10)
+cov&lt;-seq(10,1)
+for (i in 1:10){
+r[i] = integrate(integrand.T.leq.C,lower = 0.0001,upper = .9999,Cop.fam = "frank",C.fam = "lnorm",T.fam = "lnorm",
+          x = cov[i],par.T = 0.1,beta.T = c(0.05,0.05),par.C = 0.1,beta.C = c(0.5,0.5),par.cop = 10)$value}
+ 
+Example 2: Without Covariate:
+
+q = integrate(integrand.T.leq.C,lower = 0.0001,upper = .9999,Cop.fam = "frank",C.fam = "lnorm",T.fam = "lnorm",
+             par.T = c(1,2),par.C = c(3,4),par.cop = 20)$value
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DCensoring</em> version 0.0.0.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

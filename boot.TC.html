@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bootstrapping</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for boot.TC {DCensoring}"><tr><td>boot.TC {DCensoring}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bootstrapping</h2>
+
+<h3>Description</h3>
+
+<p>Bootstrapping
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+boot.TC(dfb, yb, deltab, Copfam, startpar, B, Tfam, Cfam, xb)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>startpar:</code></td>
+<td>
+<p>starting values of parameters &ndash; eg: c(par(T),par(C),par(copula))</p>
+</td></tr>
+<tr valign="top"><td><code>dfb:</code></td>
+<td>
+<p>dataframe</p>
+</td></tr>
+<tr valign="top"><td><code>yb:</code></td>
+<td>
+<p>columnname of Y=min(T,C) in dataframe. eg: &quot;survivaltimeinmonths&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>deltab:</code></td>
+<td>
+<p>columnname of delta in dataframe. eg: &quot;delta&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>Tfam:</code></td>
+<td>
+<p>specify the distribution of x (survival time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>Cfam:</code></td>
+<td>
+<p>specify the distribution of y (censoring time) &ndash; &quot;weibull&quot; or &quot;lnorm&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>Copfam:</code></td>
+<td>
+<p>specify the copula family &ndash; &quot;frank&quot;,&quot;clayton&quot;,&quot;gumbel&quot;,&quot;gauss&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>B:</code></td>
+<td>
+<p>number of bootstraps</p>
+</td></tr>
+<tr valign="top"><td><code>xb:</code></td>
+<td>
+<p>covariates or explanatory variables (optional)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>boot.TC</code> returns the bootstrapped results as a list in the order of parameters, copula parameter, tau value, loglikelihood and convergence value
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+y&lt;-seq(1,20,2)
+cov1&lt;-rpois(10,2)
+cov2&lt;-rpois(10,3)
+delta&lt;-rbinom(10,1,0.5)
+dff&lt;-data.frame(y,delta,cov1,cov2)
+tau&lt;-0.5
+para&lt;-c(-2,-0.002,0.001,-0.001)
+beta.T&lt;-c(0.005,0.005)
+beta.C&lt;-c(0.006,0.006)
+lpara&lt;-list(tau,para,beta.T,beta.C)
+Example 1: With Covariate:
+
+bt&lt;-boot.TC(dfb=dff,yb="y",deltab="delta",xb=c("cov1","cov2"),Copfam = "frank",
+           Tfam = "weibull",Cfam = "weibull",startpar = unlist(lpara),B=2)
+bt[,1:9] #bootstapped parameters - logit,para,beta.T,beta.T
+bt[,10] #cop.par
+bt[,11] #tau
+bt[,12] #loglikelihood
+bt[,13] #convergence
+
+Example 2: Without Covarite:
+
+bt1&lt;-boot.TC(dfb=dff,yb="y",deltab="delta",Copfam = "frank",
+            Tfam = "weibull",Cfam = "weibull",startpar = c(tau,para),B=2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DCensoring</em> version 0.0.0.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>
